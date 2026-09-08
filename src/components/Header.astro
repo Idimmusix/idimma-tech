@@ -3,25 +3,49 @@ const nav = [
 	{ href: '/', label: 'Home' },
 	{ href: '/about', label: 'About' },
 	{ href: '/case-studies', label: 'Case Studies' },
-	{ href: 'https://sre-projects.idimma.tech', label: 'Projects' },
-	{ href: 'https://blog.idimma.tech', label: 'Blog' },
+	{ href: import.meta.env.PUBLIC_PROJECTS_URL, label: 'Projects' },
+	{ href: import.meta.env.PUBLIC_BLOG_URL, label: 'Blog' },
 ];
 ---
 
-<header>
-	<a class="brand" href="/">Idimma</a>
-	<nav>
-		{nav.map((item) => (
-			<a href={item.href}>{item.label}</a>
-		))}
-	</nav>
+<header class="site-header">
+	<div class="header-inner">
+		<a class="brand" href="/">Idimma</a>
+		<nav>
+			{nav.map((item) => (
+				<a href={item.href}>{item.label}</a>
+			))}
+		</nav>
+	</div>
 </header>
 
+<script>
+	const header = document.querySelector('.site-header');
+	const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 8);
+	window.addEventListener('scroll', onScroll, { passive: true });
+	onScroll();
+</script>
+
 <style>
-	header {
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 20;
+		background: var(--header-bg);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border-bottom: 1px solid transparent;
+		transition: border-color 0.2s ease;
+	}
+
+	.site-header.scrolled {
+		border-bottom-color: var(--border);
+	}
+
+	.header-inner {
 		max-width: 760px;
 		margin: 0 auto;
-		padding: 1.5rem;
+		padding: 1.25rem 1.5rem;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -33,21 +57,41 @@ const nav = [
 		font-weight: 700;
 		text-decoration: none;
 		font-size: 1.1rem;
+		letter-spacing: -0.01em;
 	}
 
 	nav {
 		display: flex;
-		gap: 1.25rem;
+		gap: 1.5rem;
 		flex-wrap: wrap;
 	}
 
 	nav a {
+		position: relative;
 		text-decoration: none;
 		font-size: 0.95rem;
-		opacity: 0.8;
+		color: var(--muted);
+		padding-bottom: 0.15rem;
+		transition: color 0.15s ease;
+	}
+
+	nav a::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 100%;
+		bottom: 0;
+		height: 2px;
+		border-radius: 2px;
+		background: var(--gradient);
+		transition: right 0.2s ease;
 	}
 
 	nav a:hover {
-		opacity: 1;
+		color: var(--fg);
+	}
+
+	nav a:hover::after {
+		right: 0;
 	}
 </style>

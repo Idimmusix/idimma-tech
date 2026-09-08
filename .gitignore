@@ -13,9 +13,10 @@ yarn-error.log*
 pnpm-debug.log*
 
 
-# environment variables
+# environment variables (local overrides only — .env.production holds
+# real, non-secret site URLs and is intentionally committed)
 .env
-.env.production
+.env.*.local
 
 # macOS-specific files
 .DS_Store

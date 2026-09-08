@@ -2,17 +2,19 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 
-const bullets = [
-	'Own reliability for a multi-service, multi-provider payments platform handling real-time inbound and outbound transfers at national-switch scale.',
-	'Lead incident investigations across distributed systems — from tail-latency anomalies to cross-service dependency failures — with a bias toward root-cause clarity over guesswork.',
-	'Build observability and reliability tooling — multi-backend query CLIs, SLO/alerting design — treating platform tooling as a product, not a chore.',
-	'Apply the same reliability discipline to AI/agentic systems: cost-aware context design, cache-efficient scheduling, and treating LLM tooling like any other production dependency.',
+const story =
+	'Retroactively identified every account affected by a race-condition bug across tens of thousands of candidate records, using timestamp-gap signatures to separate real incidents from high-volume false positives, and turned a one-off fix into full-population remediation.';
+
+const stats = [
+	{ value: '74%', label: 'MTTR cut (35m → 9m) by building an observability-as-code platform with custom SLIs' },
+	{ value: '99.95%+', label: 'Uptime maintained for a payments platform processing 10M+ daily transactions' },
+	{ value: '28%', label: 'Cloud spend cut (~$120K+/yr) through automated FinOps tooling' },
 ];
 
 const cards = [
 	{ title: 'Case Studies', description: 'Real incident investigations, genericized.', href: '/case-studies' },
-	{ title: 'Projects', description: 'Live, runnable tools and demos.', href: 'https://sre-projects.idimma.tech' },
-	{ title: 'Resume / LinkedIn', description: 'Experience, roles, background.', href: 'https://linkedin.com/in/idimma' },
+	{ title: 'Projects', description: 'Live, runnable tools and demos.', href: import.meta.env.PUBLIC_PROJECTS_URL },
+	{ title: 'LinkedIn', description: 'Experience, roles, background.', href: import.meta.env.PUBLIC_LINKEDIN_URL },
 ];
 ---
 
@@ -20,11 +22,18 @@ const cards = [
 	<Header />
 	<main>
 		<h1>Idimmachukwu Okoro</h1>
-		<p class="tagline">Staff-level SRE / Platform Engineer specializing in payments-systems reliability at scale.</p>
+		<p class="tagline">Staff-level SRE / Platform Engineer at Moniepoint, specializing in payments-systems reliability at scale.</p>
 
-		<ul class="bullets">
-			{bullets.map((b) => <li>{b}</li>)}
-		</ul>
+		<p class="story">{story}</p>
+
+		<div class="stats">
+			{stats.map((s) => (
+				<div class="stat">
+					<span class="stat-value">{s.value}</span>
+					<span class="stat-label">{s.label}</span>
+				</div>
+			))}
+		</div>
 
 		<div class="cards">
 			{cards.map((c) => (
@@ -39,52 +48,120 @@ const cards = [
 
 <style>
 	h1 {
-		margin-bottom: 0.25rem;
-	}
-
-	.tagline {
-		font-size: 1.15rem;
-		opacity: 0.85;
 		margin-top: 0;
 	}
 
-	.bullets {
-		padding-left: 1.25rem;
-		margin: 2rem 0;
+	.tagline {
+		font-size: 1.2rem;
+		color: var(--muted);
+		margin: 0 0 2rem;
+		max-width: 46ch;
 	}
 
-	.bullets li {
-		margin-bottom: 0.75rem;
+	.story {
+		font-size: 1.05rem;
+		line-height: 1.65;
+		color: var(--fg);
+		margin: 0 0 2.5rem;
+		padding-left: 1.1rem;
+		border-left: 2px solid var(--border);
+	}
+
+	.stats {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+		gap: 1.75rem;
+		margin: 0 0 3rem;
+		padding: 1.75rem 0;
+		border-top: 1px solid var(--border);
+		border-bottom: 1px solid var(--border);
+	}
+
+	.stat {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+	}
+
+	.stat-value {
+		font-size: 2rem;
+		font-weight: 800;
+		letter-spacing: -0.02em;
+		font-variant-numeric: tabular-nums;
+		background: var(--gradient);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+
+	.stat-label {
+		font-size: 0.88rem;
+		color: var(--muted);
+		line-height: 1.5;
 	}
 
 	.cards {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-		gap: 1rem;
-		margin-top: 2.5rem;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 1.25rem;
 	}
 
 	.card {
 		display: block;
-		border: 1px solid currentColor;
-		border-radius: 8px;
-		padding: 1.25rem;
+		position: relative;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		padding: 1.5rem 1.5rem 1.75rem;
 		text-decoration: none;
-		opacity: 0.9;
+		background: var(--surface);
+		box-shadow: var(--shadow-sm);
+		transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+		overflow: hidden;
+	}
+
+	.card::before {
+		content: '';
+		position: absolute;
+		inset: 0 0 auto 0;
+		height: 3px;
+		background: var(--gradient);
+		opacity: 0.35;
+		transition: opacity 0.2s ease;
 	}
 
 	.card:hover {
+		transform: translateY(-4px);
+		border-color: transparent;
+		box-shadow: var(--shadow-lg);
+	}
+
+	.card:hover::before {
 		opacity: 1;
 	}
 
 	.card h2 {
-		margin: 0 0 0.4rem;
-		font-size: 1.05rem;
+		margin: 0 0 0.5rem;
+		font-size: 1.1rem;
+		font-weight: 700;
+	}
+
+	.card h2::after {
+		content: ' →';
+		display: inline-block;
+		opacity: 0;
+		margin-left: -6px;
+		transition: opacity 0.2s ease, margin-left 0.2s ease;
+	}
+
+	.card:hover h2::after {
+		opacity: 1;
+		margin-left: 2px;
 	}
 
 	.card p {
 		margin: 0;
-		font-size: 0.9rem;
-		opacity: 0.75;
+		font-size: 0.92rem;
+		color: var(--muted);
+		line-height: 1.5;
 	}
 </style>

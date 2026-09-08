@@ -10,13 +10,14 @@ const { title, description = 'Staff-level SRE / Platform Engineer' } = Astro.pro
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title} · Idimma</title>
 	</head>
 	<body>
+		<div class="bg-glow" aria-hidden="true"></div>
 		<slot />
 	</body>
 </html>
@@ -25,17 +26,85 @@ const { title, description = 'Staff-level SRE / Platform Engineer' } = Astro.pro
 	:root {
 		color-scheme: light dark;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+		--bg: #fbfbfc;
+		--fg: #111114;
+		--muted: #55585f;
+		--border: rgba(17, 17, 20, 0.1);
+		--surface: rgba(17, 17, 20, 0.03);
+		--shadow-sm: 0 1px 2px rgba(17, 17, 20, 0.05);
+		--shadow-lg: 0 8px 20px rgba(17, 17, 20, 0.07), 0 24px 48px rgba(17, 17, 20, 0.1);
+		--accent-a: #4f46e5;
+		--accent-b: #06b6d4;
+		--gradient: linear-gradient(120deg, var(--accent-a), var(--accent-b));
+		--radius: 14px;
+		--header-bg: color-mix(in srgb, var(--bg) 72%, transparent);
+		--glow-opacity: 0.08;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--bg: #0b0b0d;
+			--fg: #f3f3f5;
+			--muted: #a3a3ab;
+			--border: rgba(255, 255, 255, 0.12);
+			--surface: rgba(255, 255, 255, 0.04);
+			--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+			--shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.35), 0 24px 48px rgba(0, 0, 0, 0.45);
+			--glow-opacity: 0.16;
+		}
+	}
+
+	* {
+		box-sizing: border-box;
 	}
 
 	body {
 		margin: 0;
 		line-height: 1.6;
+		background: var(--bg);
+		color: var(--fg);
+		position: relative;
+		overflow-x: hidden;
+	}
+
+	.bg-glow {
+		position: fixed;
+		inset: -20% -10% auto -10%;
+		height: 46rem;
+		background: radial-gradient(closest-side, var(--accent-a), transparent 70%),
+			radial-gradient(closest-side, var(--accent-b), transparent 70%);
+		background-position: 15% 0%, 90% 10%;
+		background-repeat: no-repeat;
+		background-size: 40rem 40rem, 34rem 34rem;
+		opacity: var(--glow-opacity);
+		filter: blur(10px);
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	main,
+	header {
+		position: relative;
+		z-index: 1;
 	}
 
 	main {
 		max-width: 760px;
 		margin: 0 auto;
 		padding: 0 1.5rem 4rem;
+	}
+
+	main h1 {
+		margin: 2rem 0 0.5rem;
+		font-size: clamp(2.5rem, 6vw, 4.25rem);
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		line-height: 1.05;
+		background: var(--gradient);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
 	}
 
 	a {
