@@ -1,0 +1,53 @@
+---
+const nav = [
+	{ href: '/', label: 'Home' },
+	{ href: '/about', label: 'About' },
+	{ href: '/case-studies', label: 'Case Studies' },
+	{ href: 'https://sre-projects.idimma.tech', label: 'Projects' },
+	{ href: 'https://blog.idimma.tech', label: 'Blog' },
+];
+---
+
+<header>
+	<a class="brand" href="/">Idimma</a>
+	<nav>
+		{nav.map((item) => (
+			<a href={item.href}>{item.label}</a>
+		))}
+	</nav>
+</header>
+
+<style>
+	header {
+		max-width: 760px;
+		margin: 0 auto;
+		padding: 1.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.brand {
+		font-weight: 700;
+		text-decoration: none;
+		font-size: 1.1rem;
+	}
+
+	nav {
+		display: flex;
+		gap: 1.25rem;
+		flex-wrap: wrap;
+	}
+
+	nav a {
+		text-decoration: none;
+		font-size: 0.95rem;
+		opacity: 0.8;
+	}
+
+	nav a:hover {
+		opacity: 1;
+	}
+</style>
