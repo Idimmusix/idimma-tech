@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://idimma.tech/sitemap-index.xml
