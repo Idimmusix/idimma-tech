@@ -13,6 +13,7 @@ const studies = (await getCollection('case-studies')).sort(
 	<main>
 		<h1>Case Studies</h1>
 		<p>Real incident investigations, genericized: no company or system names, just the reasoning.</p>
+		<p>A pattern runs through most of these: a single report becomes the seed for finding every account affected by the same root cause, not just the one that got reported.</p>
 
 		<ul class="list">
 			{studies.map((s) => (
